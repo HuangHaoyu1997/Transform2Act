@@ -36,13 +36,26 @@ class Transform2ActAgent(AgentPPO):
         self.setup_param_scheduler()
         if checkpoint != 0:
             self.load_checkpoint(checkpoint)
-        super().__init__(env=self.env, dtype=dtype, device=device, running_state=self.running_state,
-                         custom_reward=None, logger_cls=LoggerRLV1, traj_cls=TrajBatchDisc, num_threads=num_threads,
-                         policy_net=self.policy_net, value_net=self.value_net,
-                         optimizer_policy=self.optimizer_policy, optimizer_value=self.optimizer_value, opt_num_epochs=cfg.num_optim_epoch,
-                         gamma=cfg.gamma, tau=cfg.tau, clip_epsilon=cfg.clip_epsilon,
-                         policy_grad_clip=[(self.policy_net.parameters(), 40)],
-                         use_mini_batch=cfg.mini_batch_size < cfg.min_batch_size, mini_batch_size=cfg.mini_batch_size)
+        super().__init__(env=self.env, 
+                        dtype=dtype, 
+                        device=device, 
+                        running_state=self.running_state,
+                        custom_reward=None, 
+                        logger_cls=LoggerRLV1, 
+                        traj_cls=TrajBatchDisc, 
+                        num_threads=num_threads,
+                        policy_net=self.policy_net, 
+                        value_net=self.value_net,
+                        optimizer_policy=self.optimizer_policy, 
+                        optimizer_value=self.optimizer_value, 
+                        opt_num_epochs=cfg.num_optim_epoch,
+                        gamma=cfg.gamma, 
+                        tau=cfg.tau, 
+                        clip_epsilon=cfg.clip_epsilon,
+                        policy_grad_clip=[(self.policy_net.parameters(), 40)],
+                        use_mini_batch=cfg.mini_batch_size < cfg.min_batch_size, 
+                        mini_batch_size=cfg.mini_batch_size
+                        )
 
     def sample_worker(self, pid, queue, min_batch_size, mean_action, render):
         self.seed_worker(pid)
@@ -196,6 +209,7 @@ class Transform2ActAgent(AgentPPO):
             param.set_epoch(epoch)
 
     def optimize(self, epoch):
+        '''start training here'''
         self.pre_epoch_update(epoch)
         info = self.optimize_policy(epoch)
         self.log_optimize_policy(epoch, info)
@@ -215,7 +229,12 @@ class Transform2ActAgent(AgentPPO):
         t3 = time.time() 
 
         info = {
-            'log': log, 'log_eval': log_eval, 'T_sample': t1 - t0, 'T_update': t2 - t1, 'T_eval': t3 - t2, 'T_total': t3 - t0
+            'log': log, 
+            'log_eval': log_eval, 
+            'T_sample': t1 - t0, 
+            'T_update': t2 - t1, 
+            'T_eval': t3 - t2, 
+            'T_total': t3 - t0
         }
         return info
 

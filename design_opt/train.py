@@ -32,7 +32,13 @@ torch.manual_seed(cfg.seed)
 start_epoch = int(args.epoch) if args.epoch.isnumeric() else args.epoch
 
 """create agent"""
-agent = Transform2ActAgent(cfg=cfg, dtype=dtype, device=device, seed=cfg.seed, num_threads=args.num_threads, training=True, checkpoint=start_epoch)
+agent = Transform2ActAgent(cfg=cfg, 
+                            dtype=dtype, 
+                            device=device, 
+                            seed=cfg.seed, 
+                            num_threads=args.num_threads, 
+                            training=True, 
+                            checkpoint=start_epoch)
 
 
 def main_loop():

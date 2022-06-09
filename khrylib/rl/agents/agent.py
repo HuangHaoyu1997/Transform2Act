@@ -14,14 +14,26 @@ os.environ["OMP_NUM_THREADS"] = "1"
 
 class Agent:
 
-    def __init__(self, env, policy_net, value_net, dtype, device, gamma, custom_reward=None,
-                 end_reward=False, running_state=None, num_threads=1, logger_cls=LoggerRL, logger_kwargs=None, traj_cls=TrajBatch):
+    def __init__(self, env, 
+                policy_net, 
+                value_net, 
+                dtype, 
+                device, 
+                gamma, 
+                custom_reward=None,
+                end_reward=False, 
+                running_state=None, 
+                num_threads=1, 
+                logger_cls=LoggerRL, 
+                logger_kwargs=None, 
+                traj_cls=TrajBatch
+                ):
         self.env = env
         self.policy_net = policy_net
         self.value_net = value_net
         self.dtype = dtype
         self.device = device
-        self.gamma = gamma
+        self.gamma = gamma # discount factor
         self.custom_reward = custom_reward
         self.end_reward = end_reward
         self.running_state = running_state
